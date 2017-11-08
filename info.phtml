@@ -1,0 +1,105 @@
+<?php
+/**
+ * Magento
+ *
+ * BRUNO T. ARAUJO
+ * AGÊNCIA NÃO DIVULGUE
+ * GITHUB FREE SHARE
+ * https://github.com/NaoDivulgue/Magento-Status-Bar-Order/
+ */
+?>
+
+<?php /** @var $this Mage_Sales_Block_Order_Info */ ?>
+<?php $_order = $this->getOrder() ?>
+
+<?php /*
+	ADICIONAR LINHAS ABAIXO NO SEU INFO.PHTML EM
+	\app\design\frontend\seu_tema\default\template\sales\order\info.phtml
+*/?>
+
+<?php echo $this->getStatusHistoryRssUrl($_order) ?>
+
+<div id="statusOrder" class="checkout-wrap">
+<?php
+  //SE STATE NEGATIVO MOSTRAR MENSAGEM
+  $stateNegative = array('closed','canceled','holded');
+  if(in_array($_order->getState(), $stateNegative)):
+?>
+	<div class="closed canceled holded">
+		<?php echo $this->__('Fechado, Cancelado ou Aguardando Aprovação')?>
+	</div>
+<?php else:?>
+<ul class="label-bar">
+		<li class="new"><?php echo $this->__('Order Created') ?></li>
+		<li class="pending_payment payment_review"><?php echo $this->__('Payment Authorization') ?></li>
+		<li class="processing"><?php echo $this->__('Separated Order') ?></li>
+		<li class="complete_shipped"><?php echo $this->__('Product in Transportation') ?></li>
+		<li class="complete"><?php echo $this->__('Product Delivered') ?></li>
+	</ul>
+	<ul class="checkout-bar">
+		<li class="new"></li>
+		<li class="pending_payment payment_review"></li>
+		<li class="processing"></li>
+		<li class="complete_shipped"></li>
+		<li class="complete"></li>
+	</ul>
+	<ul class="label-bar-bottom">
+		<li class="new"></li>
+		<li class="pending pending_payment payment_review"></li>
+		<li class="processing"></li>
+		<li class="complete_shipped"></li>
+		<li class="complete"></li>
+	</ul>
+<?php endif;?>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+jQuery(function ($) {
+	$(document).ready(function(){
+	  var statuslabel = '<?php echo $_order->getStatusLabel() ?>';
+	  var status      = '<?php echo $_order->getStatus() ?>';
+	  var data        = '<?php echo $_order->getCreatedAtDate()->toString('d/M/Y H:M') ?>';
+	  var state       = '<?php echo $_order->getState() ?>';
+	  var history     = new Object();
+	  var progress    = '<?php echo $this->__('In progress') ?>';
+	  var complete    = '<?php echo $this->__('Complete') ?>';
+		<?php
+			//GERAR ARQUIVO HISTORY PARA CONSULTA
+			$x = 0;
+			foreach ($_order->getAllStatusHistory() as $commentObj):
+		?>
+		   history['<?php echo $x ?>'] = {
+			  'status'         : '<?php echo $commentObj->getStatus() ?>',
+			  'comment'        : '<?php echo $commentObj->getData('comment') ?>',
+			  'datestatus'     : '<?php echo $this->formatDate($commentObj->getCreatedAt(), 'short', true) ?>',
+			}
+	    <?php $x++ ?>
+		<?php
+			endforeach;
+		?>
+		if(state == 'new'){
+			$('#statusOrder .'+state+'').addClass("active");
+			$('#statusOrder .pending_payment').addClass("run");
+		}else if(state == 'complete'){
+			$('#statusOrder .'+state+'').addClass("active");
+		}else{
+			$('#statusOrder .'+state+'').addClass("run");
+		}
+		$('li.run').prevAll().addClass('active');
+		$('li.active').prevAll().addClass('active');
+		$('#statusOrder .label-bar-bottom li.run').append(progress);
+		$('#statusOrder .label-bar-bottom li.active').append(complete);
+
+		$('#statusOrder .label-bar-bottom li.new.active').append('<br/><span>'+data+'</span>');
+		for(var j in history ){
+		  if ( ('#statusOrder .label-bar-bottom li.'+history[j].status+'.active span') === undefined){
+			$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').append('<br/><span>'+history[j].datestatus+'</span>');
+		  }else{
+			$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
+		  }
+		}
+	});
+});
+//]]>
+</script>

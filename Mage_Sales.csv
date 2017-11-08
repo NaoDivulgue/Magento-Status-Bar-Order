@@ -1,0 +1,18 @@
+<!--ADICIONAR ESTAS LINHAS AO ARQUIVO MAGE_SALES.CSV-->
+<!--\app\locale\pt_BR\Mage_Sales.csv-->
+
+"Complete","Concluído"
+"In progress","Pendente"
+"Order Created","Pedido<br/>Criado"
+"Payment Authorization","Autorização<br/>do Pagamento"
+"Separated Order","Pedido em<br/>Separação"
+"Product in Transportation","Produto em<br/>Transporte"
+"Product Delivered","Produto<br/>Entregue"
+"Order Date","Data do Pedido"
+"Paid","Pago"
+"Follow your order","Acompanhe sua entrega"
+"Code for screening:","Código para rastreio:"
+"Delivery forecast","Previsão de entrega"
+"Order n°:","Pedido n°:"
+"Date Order:","Data:"
+"Status Order:","Status:"
