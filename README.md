@@ -7,10 +7,6 @@
  * https://github.com/NaoDivulgue/Magento-Status-Bar-Order/
  
 <h2>AGÊNCIA NÃO DIVULGUE</h2>
-BRUNO TEIXEIRA DE ARAUJO<br/>
-<b>https://github.com/NaoDivulgue/Magento-Status-Bar-Order/</b>
-<br/>
-<br/>
 
 <b>Backup:</b>
 <p>Faça sempre backup dos seus arquivos antes de qualquer alteração.</p>
