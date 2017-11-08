@@ -6,7 +6,7 @@
  * GITHUB FREE SHARE
  * https://github.com/NaoDivulgue/Magento-Status-Bar-Order/
  
-<b>Backup:</b><p>Faça sempre backup dos seus arquivos antes de qualquer alteração.</p>
+<p><b>Backup: </b>Faça sempre backup dos seus arquivos antes de qualquer alteração.</p>
 
 <h3>COMO IMPLANTAR</h3>
 <ul>
@@ -18,5 +18,5 @@
 <img src="https://raw.githubusercontent.com/NaoDivulgue/Magento-Status-Bar-Order/master/pedido.png">
 
 <br/>
-<b>Backup:</b><p>Faça sempre backup dos seus arquivos antes de qualquer alteração.</p>
+<p><b>Backup: </b>Faça sempre backup dos seus arquivos antes de qualquer alteração.</p>
 
