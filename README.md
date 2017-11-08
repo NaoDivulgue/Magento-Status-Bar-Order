@@ -16,12 +16,12 @@ BRUNO TEIXEIRA DE ARAUJO<br/>
 
 <h3>COMO IMPLANTAR</h3>
 <ul>
-	<li>Adicione as informações do arquivo info.php na pasta do seu tema em \app\design\frontend\<b>seu_tema</b>\default\template\sales\order\info.phtml ~~(Caso não tenha o arquivo, recomendo que faça uma cópia do tema base)~~</li>
+	<li>Adicione as informações do arquivo info.php na pasta do seu tema em \app\design\frontend\<b>seu_tema</b>\default\template\sales\order\info.phtml <sub>(Caso não tenha o arquivo, recomendo que faça uma cópia do tema base)</sub></li>
 	<li>Adicione o style.css no seu tema \skin\frontend\<b>seu_tema</b>\default\css\style.css</li>
 	<li>Adicione a tradução PT_BR do arquivo Mage_Sales.csv em \app\locale\pt_BR\Mage_Sales.csv</li> 
 </ul>
 <h3>Este modelo deve aparecer na página de status do Pedido:</h3>
-![picture alt](https://raw.githubusercontent.com/NaoDivulgue/Magento-Status-Bar-Order/master/pedido.png "Status Order")
+![alt text](https://raw.githubusercontent.com/NaoDivulgue/Magento-Status-Bar-Order/master/pedido.png "Status Order")
 
 
 <b>Backup:</b>
