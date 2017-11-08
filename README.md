@@ -1,10 +1,11 @@
+ <h1>MAGENTO STATUS BAR ORDER</h1>
+
  * Magento 1.9
  * BRUNO T. ARAUJO
  * AGÊNCIA NÃO DIVULGUE
  * GITHUB FREE SHARE
  * https://github.com/NaoDivulgue/Magento-Status-Bar-Order/
  
-<h1>MAGENTO STATUS BAR ORDER</h1>
 <h2>AGÊNCIA NÃO DIVULGUE</h2>
 BRUNO TEIXEIRA DE ARAUJO<br/>
 <b>https://github.com/NaoDivulgue/Magento-Status-Bar-Order/</b>
