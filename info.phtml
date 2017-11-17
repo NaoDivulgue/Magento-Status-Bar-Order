@@ -31,22 +31,22 @@
 <?php else:?>
 <ul class="label-bar">
 		<li class="new"><?php echo $this->__('Order Created') ?></li>
-		<li class="pending_payment payment_review"><?php echo $this->__('Payment Authorization') ?></li>
-		<li class="processing"><?php echo $this->__('Separated Order') ?></li>
+		<li class="pending pending_payment payment_review"><?php echo $this->__('Payment Authorization') ?></li>
+		<li class="processing paga_ps"><?php echo $this->__('Separated Order') ?></li>
 		<li class="complete_shipped"><?php echo $this->__('Product in Transportation') ?></li>
 		<li class="complete"><?php echo $this->__('Product Delivered') ?></li>
 	</ul>
 	<ul class="checkout-bar">
 		<li class="new"></li>
-		<li class="pending_payment payment_review"></li>
-		<li class="processing"></li>
+		<li class="pending pending_payment payment_review"></li>
+		<li class="processing paga_ps"></li>
 		<li class="complete_shipped"></li>
 		<li class="complete"></li>
 	</ul>
 	<ul class="label-bar-bottom">
 		<li class="new"></li>
 		<li class="pending pending_payment payment_review"></li>
-		<li class="processing"></li>
+		<li class="processing paga_ps"></li>
 		<li class="complete_shipped"></li>
 		<li class="complete"></li>
 	</ul>
@@ -78,13 +78,17 @@ jQuery(function ($) {
 		<?php
 			endforeach;
 		?>
-		if(state == 'new'){
+		if(state == 'new'  && status != 'paga_ps'){
 			$('#statusOrder .'+state+'').addClass("active");
 			$('#statusOrder .pending_payment').addClass("run");
 		}else if(state == 'complete'){
 			$('#statusOrder .'+state+'').addClass("active");
 		}else{
-			$('#statusOrder .'+state+'').addClass("run");
+		    if(state != 'new'){
+		      $('#statusOrder .'+state+'').addClass("run");
+		    }else{
+		      $('#statusOrder .'+status+'').addClass("run");
+		    }
 		}
 		$('li.run').prevAll().addClass('active');
 		$('li.active').prevAll().addClass('active');
