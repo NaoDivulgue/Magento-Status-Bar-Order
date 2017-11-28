@@ -31,22 +31,22 @@
 <?php else:?>
 <ul class="label-bar">
 		<li class="new"><?php echo $this->__('Order Created') ?></li>
-		<li class="pending pending_payment payment_review"><?php echo $this->__('Payment Authorization') ?></li>
-		<li class="processing paga_ps"><?php echo $this->__('Separated Order') ?></li>
+    <li class="pending pending_payment payment_review paga_ps"><?php echo $this->__('Payment Authorization') ?></li>
+    <li class="processing"><?php echo $this->__('Separated Order') ?></li>
 		<li class="complete_shipped"><?php echo $this->__('Product in Transportation') ?></li>
 		<li class="complete"><?php echo $this->__('Product Delivered') ?></li>
 	</ul>
 	<ul class="checkout-bar">
 		<li class="new"></li>
-		<li class="pending pending_payment payment_review"></li>
-		<li class="processing paga_ps"></li>
+		<li class="pending pending_payment payment_review paga_ps"></li>
+		<li class="processing"></li>
 		<li class="complete_shipped"></li>
 		<li class="complete"></li>
 	</ul>
 	<ul class="label-bar-bottom">
 		<li class="new"></li>
-		<li class="pending pending_payment payment_review"></li>
-		<li class="processing paga_ps"></li>
+    <li class="pending pending_payment payment_review paga_ps"></li>
+    <li class="processing"></li>
 		<li class="complete_shipped"></li>
 		<li class="complete"></li>
 	</ul>
@@ -67,7 +67,7 @@ jQuery(function ($) {
 		<?php
 			//GERAR ARQUIVO HISTORY PARA CONSULTA
 			$x = 0;
-			foreach ($_order->getAllStatusHistory() as $commentObj):
+			foreach (array_reverse($_order->getAllStatusHistory()) as $commentObj):
 		?>
 		   history['<?php echo $x ?>'] = {
 			  'status'         : '<?php echo $commentObj->getStatus() ?>',
@@ -80,15 +80,19 @@ jQuery(function ($) {
 		?>
 		if(state == 'new'  && status != 'paga_ps'){
 			$('#statusOrder .'+state+'').addClass("active");
-			$('#statusOrder .pending_payment').addClass("run");
+			if(status == 'paga_ps'){
+				$('#statusOrder .'+status+'').addClass("active");
+			}else{
+				$('#statusOrder .pending_payment').addClass("run");
+			}
 		}else if(state == 'complete'){
 			$('#statusOrder .'+state+'').addClass("active");
 		}else{
-			if(state != 'new'){
-		     	 	$('#statusOrder .'+state+'').addClass("run");
-		    	}else{
-		      		$('#statusOrder .'+status+'').addClass("run");
-		    	}
+		    if(state != 'new'){
+		      $('#statusOrder .'+state+'').addClass("run");
+		    }else{
+		      $('#statusOrder .'+status+'').addClass("run");
+		    }
 		}
 		$('li.run').prevAll().addClass('active');
 		$('li.active').prevAll().addClass('active');
@@ -97,11 +101,15 @@ jQuery(function ($) {
 
 		$('#statusOrder .label-bar-bottom li.new.active').append('<br/><span>'+data+'</span>');
 		for(var j in history ){
-		  if ( ('#statusOrder .label-bar-bottom li.'+history[j].status+'.active span') === undefined){
+		   //OBRIGAR DATA PAGAMENTO NO PROCESSO
+		   if(history[j].status == 'processing' ){
+			$('#statusOrder .label-bar-bottom li.paga_ps.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
+		   }	
+		   if ( ('#statusOrder .label-bar-bottom li.'+history[j].status+'.active span') === undefined){
 			$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').append('<br/><span>'+history[j].datestatus+'</span>');
-		  }else{
+		   }else{
 			$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
-		  }
+		   }
 		}
 	});
 });
