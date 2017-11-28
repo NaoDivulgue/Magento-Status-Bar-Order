@@ -31,8 +31,8 @@
 <?php else:?>
 <ul class="label-bar">
 		<li class="new"><?php echo $this->__('Order Created') ?></li>
-    		<li class="pending pending_payment payment_review paga_ps"><?php echo $this->__('Payment Authorization') ?></li>
-    		<li class="processing"><?php echo $this->__('Separated Order') ?></li>
+    <li class="pending pending_payment payment_review paga_ps"><?php echo $this->__('Payment Authorization') ?></li>
+    <li class="processing"><?php echo $this->__('Separated Order') ?></li>
 		<li class="complete_shipped"><?php echo $this->__('Product in Transportation') ?></li>
 		<li class="complete"><?php echo $this->__('Product Delivered') ?></li>
 	</ul>
@@ -45,8 +45,8 @@
 	</ul>
 	<ul class="label-bar-bottom">
 		<li class="new"></li>
-   		<li class="pending pending_payment payment_review paga_ps"></li>
-   		<li class="processing"></li>
+    <li class="pending pending_payment payment_review paga_ps"></li>
+    <li class="processing"></li>
 		<li class="complete_shipped"></li>
 		<li class="complete"></li>
 	</ul>
@@ -78,7 +78,7 @@ jQuery(function ($) {
 		<?php
 			endforeach;
 		?>
-		if(state == 'new'){
+		if(state == 'new'  && status != 'paga_ps'){
 			$('#statusOrder .'+state+'').addClass("active");
 			if(status == 'paga_ps'){
 				$('#statusOrder .'+status+'').addClass("active");
