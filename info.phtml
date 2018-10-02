@@ -29,27 +29,27 @@
 		<?php echo $this->__('Fechado, Cancelado ou Aguardando Aprovação')?>
 	</div>
 <?php else:?>
-<ul class="label-bar">
-		<li class="new"><?php echo $this->__('Order Created') ?></li>
-    		<li class="pending pending_payment payment_review paga_ps"><?php echo $this->__('Payment Authorization') ?></li>
-    		<li class="processing"><?php echo $this->__('Separated Order') ?></li>
-		<li class="complete_shipped"><?php echo $this->__('Product in Transportation') ?></li>
-		<li class="complete"><?php echo $this->__('Product Delivered') ?></li>
-	</ul>
-	<ul class="checkout-bar">
-		<li class="new"></li>
-		<li class="pending pending_payment payment_review paga_ps"></li>
-		<li class="processing"></li>
-		<li class="complete_shipped"></li>
-		<li class="complete"></li>
-	</ul>
-	<ul class="label-bar-bottom">
-		<li class="new"></li>
-    		<li class="pending pending_payment payment_review paga_ps"></li>
-    		<li class="processing"></li>
-		<li class="complete_shipped"></li>
-		<li class="complete"></li>
-	</ul>
+  <ul class="label-bar">
+    <li class="new"><?php echo $this->__('Order Created') ?></li>
+    <li class="pending pending_payment payment_review paga_ps disponivel_ps  holded"><?php echo $this->__('Payment Authorization') ?></li>
+    <li class="processing"><?php echo $this->__('Separated Order') ?></li>
+    <li class="complete_shipped"><?php echo $this->__('Product in Transportation') ?></li>
+    <li class="complete"><?php echo $this->__('Product Delivered') ?></li>
+  </ul>
+  <ul class="checkout-bar">
+    <li class="new"></li>
+    <li class="pending pending_payment payment_review paga_ps disponivel_ps holded"></li>
+    <li class="processing"></li>
+    <li class="complete_shipped"></li>
+    <li class="complete"></li>
+  </ul>
+  <ul class="label-bar-bottom">
+    <li class="new"></li>
+    <li class="pending pending_payment payment_review paga_ps disponivel_ps holded"></li>
+    <li class="processing"></li>
+    <li class="complete_shipped"></li>
+    <li class="complete"></li>
+  </ul>
 <?php endif;?>
 </div>
 
@@ -62,8 +62,9 @@ jQuery(function ($) {
 	  var data        = '<?php echo $_order->getCreatedAtDate()->toString('d/M/Y H:M') ?>';
 	  var state       = '<?php echo $_order->getState() ?>';
 	  var history     = new Object();
-	  var progress    = '<?php echo $this->__('In progress') ?>';
-	  var complete    = '<?php echo $this->__('Complete') ?>';
+ 	  var progress    = '<?php echo $this->__('In progress') ?>';
+ 	  var ACprogress  = '<?php echo $this->__('Progress') ?>';
+ 	  var complete    = '<?php echo $this->__('Complete') ?>';
 		<?php
 			//GERAR ARQUIVO HISTORY PARA CONSULTA
 			$x = 0;
@@ -78,38 +79,46 @@ jQuery(function ($) {
 		<?php
 			endforeach;
 		?>
-		if(state == 'new'  && status != 'paga_ps'){
-			$('#statusOrder .'+state+'').addClass("active");
-			if(status == 'paga_ps'){
+		 if(state == 'new'){
+		    $('#statusOrder .'+state+'').addClass("active");
+			if(status == 'paga_ps' || status == 'disponivel_ps'){
 				$('#statusOrder .'+status+'').addClass("active");
 			}else{
 				$('#statusOrder .pending_payment').addClass("run");
 			}
-		}else if(state == 'complete'){
-			$('#statusOrder .'+state+'').addClass("active");
-		}else{
+		  }else if(state == 'complete'){
+			if(status == 'complete_shipped'){
+			 $('#statusOrder .'+status+'').addClass("active");
+			}else{
+			 $('#statusOrder .'+state+'').addClass("active");
+			}
+		  }else{
 		    if(state != 'new'){
 		      $('#statusOrder .'+state+'').addClass("run");
 		    }else{
 		      $('#statusOrder .'+status+'').addClass("run");
 		    }
-		}
+		  }
 		$('li.run').prevAll().addClass('active');
 		$('li.active').prevAll().addClass('active');
 		$('#statusOrder .label-bar-bottom li.run').append(progress);
 		$('#statusOrder .label-bar-bottom li.active').append(complete);
 
 		$('#statusOrder .label-bar-bottom li.new.active').append('<br/><span>'+data+'</span>');
+		var usePago = 0;
 		for(var j in history ){
-		   //OBRIGAR DATA PAGAMENTO NO PROCESSO
-		   if(history[j].status == 'paga_ps' ){
-			$('#statusOrder .label-bar-bottom li.paga_ps.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
-		   }	
-		   if ( ('#statusOrder .label-bar-bottom li.'+history[j].status+'.active span') === undefined){
-			$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').append('<br/><span>'+history[j].datestatus+'</span>');
-		   }else{
-			$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
-		   }
+		      if(history[j].status != 'disponivel_ps'){
+			  if ( ('#statusOrder .label-bar-bottom li.'+history[j].status+'.active span') === undefined){
+				$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').append('<br/><span>'+history[j].datestatus+'</span>');
+			  }else{
+				$('#statusOrder .label-bar-bottom li.'+history[j].status+'.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
+			  }
+			  //OBRIGAR DATA PAGAMENTO NO PROCESSO
+				if(history[j].status == 'paga_ps' || history[j].status == 'processing' && usePago == 0 ){
+					$('#statusOrder .label-bar-bottom li.paga_ps.active').html(complete+'<br/><span>'+history[j].datestatus+'</span>');
+					usePago = 1;
+				}
+			}
 		}
 	});
 });
